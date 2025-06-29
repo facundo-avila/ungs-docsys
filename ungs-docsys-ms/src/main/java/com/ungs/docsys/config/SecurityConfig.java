@@ -42,6 +42,8 @@ public class SecurityConfig {
             "/v1/identification-types/**",
             "/v1/job-applications-resume-user",
             "/v1/job-applications-resume-user/**",
+            "/v1/auth/forgot-password",
+            "/v1/auth/reset-password"
     };
 
     private static final String[] ROLE_RECRUITER_POST_ACCESS = {

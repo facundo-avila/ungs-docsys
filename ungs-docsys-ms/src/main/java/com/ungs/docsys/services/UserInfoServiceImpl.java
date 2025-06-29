@@ -11,6 +11,7 @@ import com.ungs.docsys.models.*;
 import com.ungs.docsys.repositories.AppUserRepository;
 import com.ungs.docsys.repositories.UserInfoRepository;
 import com.ungs.docsys.repositories.UserRoleRepository;
+import com.ungs.docsys.utils.PasswordValidatorUtils;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -46,6 +47,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 
         if (appUserRepository.existsByEmail(request.getEmail())) {
             throw new BusinessException(HttpStatus.CONFLICT, "Email already registered");
+        }
+
+        if (!PasswordValidatorUtils.isValid(request.getPassword())) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST,
+                    "The password must have at least 8 characters, one letter, one number and one special character.");
         }
 
         IdentificationType identificationType = identificationTypeMapper.toModel(

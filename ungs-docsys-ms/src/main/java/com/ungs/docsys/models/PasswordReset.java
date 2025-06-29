@@ -1,16 +1,23 @@
 package com.ungs.docsys.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "password_reset", schema = "recruitment")
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PasswordReset {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +35,8 @@ public class PasswordReset {
     @LastModifiedDate
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
+    @Column(nullable = false, unique = true)
+    private String token;
 
     @PrePersist
     private void onCreate() {
@@ -35,6 +44,9 @@ public class PasswordReset {
         this.updatedDate = LocalDateTime.now();
         if(Objects.isNull(this.used)) {
             this.used = Boolean.FALSE;
+        }
+        if (this.token == null || this.token.isBlank()) {
+            this.token = UUID.randomUUID().toString();
         }
     }
 
