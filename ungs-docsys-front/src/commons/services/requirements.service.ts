@@ -3,7 +3,7 @@ import { RequirementResponseDto } from "../dtos/requirement-response.dto";
 import { HttpUtilsService } from "../utils/http-utils.service";
 
 export class RequirementsService {
-    private static apiUrl = "http://localhost:3000";
+    private static apiUrl = import.meta.env.VITE_API_URL;
 
     public static async getAll(): Promise<RequirementResponseDto[]> {
         try {

@@ -2,7 +2,7 @@ import axios from "axios";
 import { NationalityResponseDto } from "../dtos/nationality-response.dto";
 
 export class NationalititesService {
-    private static apiUrl = "http://localhost:3000";
+    private static apiUrl = import.meta.env.VITE_API_URL;
 
     public static async getAll(): Promise<NationalityResponseDto[]> {
         try {

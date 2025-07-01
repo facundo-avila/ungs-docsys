@@ -4,7 +4,7 @@ import { JobApplicationResumeUserResponseDto } from "../dtos/job-application-res
 import { JobApplicationResumeUserRequestDto } from "../dtos/job-application-resume-user-request.dto";
 
 export class JobApplicationResumeUsersService {
-    private static apiUrl = "http://localhost:3000";
+    private static apiUrl = import.meta.env.VITE_API_URL;
 
     public static async getById(id: number): Promise<JobApplicationResumeUserResponseDto> {
         try {

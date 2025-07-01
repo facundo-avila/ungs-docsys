@@ -1,4 +1,4 @@
-# ungs-docsys
+# UNGS-DOCSYS
 DOCSYS es una solución para automatizar los procesos de publicación de postulaciones de trabajo, las contrataciones y la generación de los dictámenes para la formalización de la contratación de un docente o investigador.
 
 ![alt text](<docs/arquitecture/proceso.png>)
@@ -41,7 +41,7 @@ A continuación, se muestra un diagrama que representa la comunicación BFF, med
 ```
 
 ---
-## 🛠️ Instalación y ejecución manual (sin Docker)
+# 🛠️ Instalación y ejecución manual (sin Docker)
 
 ### 1. Instalar PostgreSQL
 
@@ -60,6 +60,8 @@ El archivo `ungs-docsys-db/initial-script.sql` crea todo lo necesario:
 - Base de datos `docsys`
 - Usuario `admin` con contraseña `admin`
 - Tablas, relaciones y datos iniciales
+
+Script para ejecutar fuera de Docker. Incluye creación de base de datos, esquemas, tablas e inserts iniciales.
 
 #### Pasos:
 
@@ -132,12 +134,57 @@ private static apiUrl = "http://localhost:3000";
 Por último ingresar desde el navegador a la url http://localhost:5173 si la ejecución del programa es una computadora Local
 
 ---
+---
+
+# 🚀 Ejecución del proyecto con Docker
+
+Este proyecto utiliza `docker-compose` para levantar los siguientes servicios:
+
+- 🐘 PostgreSQL
+- 🔧 Backend (Spring Boot)
+- 🔁 BFF (NestJS)
+- 🌐 Frontend (React)
+
+---
+
+
+### ▶️ Comando para detener todo y eliminar contenedores y volúmenes
+```bash
+docker-compose down -v
+```
+⚠️ El flag -v borra los volúmenes, incluyendo la base de datos. Útil si querés reiniciar desde cero.
+
+
+### ▶️ Comando para levantar todo
+
+```bash
+docker-compose up --build
+```
+⚠️ Usa --build para asegurarse de reconstruir las imágenes si hubo cambios.
+
+### 📄 Scripts de base de datos
+
+El archivo `ungs-docsys-db/initial-script-docker.sql` crea todo lo necesario:
+
+Script que se ejecuta automáticamente al iniciar el contenedor de PostgreSQL por primera vez. No incluye CREATE DATABASE (la base se define con variables de entorno en docker-compose.yml).
+
+## 🌍 Acceso a los servicios
+
+| Servicio   | URL por defecto                       |
+|------------|-------------------------------------|
+| Frontend   | [http://localhost:3001](http://localhost:3001) |
+| BFF (NestJS)| [http://localhost:3000](http://localhost:3000) |
+| Backend    | [http://localhost:8080](http://localhost:8080) |
+| PostgreSQL | localhost:5432 (usuario: `admin`, contraseña: `admin`) |
+
+
+---
+---
 
 ## 📄 Licencia
 
 Proyecto desarrollado con fines académicos por estudiantes de la Universidad Nacional de General Sarmiento (UNGS), 2025.
 
-## Autores
 ## Autores
 - Facundo Avila - facundomauricio.avila@gmail.com
 - Pablo Abregu - pablo.abregu@outlook.com

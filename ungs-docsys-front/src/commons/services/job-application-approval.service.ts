@@ -4,7 +4,7 @@ import { HttpUtilsService } from "../utils/http-utils.service";
 import { JobApplicationApprovalRequestDto } from "../dtos/job-application-approval-request.dto";
 
 export class JobApplicationApprovalService {
-    private static apiUrl = "http://localhost:3000";
+    private static apiUrl = import.meta.env.VITE_API_URL;
 
     public static async getByParams(jobApplicationId: number): Promise<JobApplicationApprovalResponseDto[]> {
         try {

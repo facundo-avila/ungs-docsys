@@ -2,7 +2,7 @@ import axios from "axios";
 import { IdentificationTypeResponseDto } from "../dtos/identification-type-response.dto";
 
 export class IdentificationTypeService {
-    private static apiUrl = "http://localhost:3000";
+    private static apiUrl = import.meta.env.VITE_API_URL;
 
     public static async getAll(): Promise<IdentificationTypeResponseDto[]> {
         try {
