@@ -3,7 +3,7 @@ import { SignInResponseDto } from "../dtos/sign-in-response.dto";
 import { SignInRequestDto } from "../dtos/sign-in-request.dto";
 
 export class SignInService {
-    private static apiUrl = "http://localhost:3000";
+    private static apiUrl = import.meta.env.VITE_API_URL;
 
     public static async signIn(username: string, password: string): Promise<SignInResponseDto> {
         try {

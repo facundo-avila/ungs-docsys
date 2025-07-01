@@ -4,7 +4,7 @@ import { ResumeUserRequestDto } from "../dtos/resume-user-request.dto";
 import { ResumeUserResponseDto } from "../dtos/resume-user-response.dto";
 
 export class ResumesService {
-    private static apiUrl = "http://localhost:3000";
+    private static apiUrl = import.meta.env.VITE_API_URL;
 
     public static async create(resume: ResumeUserRequestDto): Promise<ResumeUserResponseDto> {
         try {

@@ -3,7 +3,7 @@ import { JobProfileLevelResponseDto } from "../dtos/job-profile-level-response.d
 import { HttpUtilsService } from "../utils/http-utils.service";
 
 export class JobProfileLevelsService {
-    private static apiUrl = "http://localhost:3000";
+    private static apiUrl = import.meta.env.VITE_API_URL;
 
     public static async getAll(): Promise<JobProfileLevelResponseDto[]> {
         try {

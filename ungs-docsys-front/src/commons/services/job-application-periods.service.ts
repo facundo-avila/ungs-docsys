@@ -3,7 +3,7 @@ import { JobApplicationPeriodResponseDto } from "../dtos/job-application-period-
 import { HttpUtilsService } from "../utils/http-utils.service";
 
 export class JobApplicationPeriodsService {
-    private static apiUrl = "http://localhost:3000";
+    private static apiUrl = import.meta.env.VITE_API_URL;
 
     public static async getAll(): Promise<JobApplicationPeriodResponseDto[]> {
         try {

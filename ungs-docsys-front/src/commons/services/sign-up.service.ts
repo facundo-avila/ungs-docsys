@@ -3,7 +3,7 @@ import { SignUpRequestDto } from "../dtos/sign-up-request.dto";
 import { SignUpResponseDto } from "../dtos/sign-up-response.dto";
 
 export class SignUpService {
-    private static apiUrl = "http://localhost:3000";
+    private static apiUrl = import.meta.env.VITE_API_URL;
 
     public static async signUp(signUpRequestDto: SignUpRequestDto): Promise<SignUpResponseDto> {
         try {
