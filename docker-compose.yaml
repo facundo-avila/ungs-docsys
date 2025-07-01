@@ -1,19 +1,63 @@
-version: '3.9'
+version: '3.8'
 
 services:
   postgres:
     image: postgres:15
     container_name: postgres
     environment:
-      POSTGRES_DB: dictamenes
+      POSTGRES_DB: docsys
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
-      - ./ungs-docsys-ms/init:/docker-entrypoint-initdb.d
+      - ./ungs-docsys-db/initial-script-docker.sql:/docker-entrypoint-initdb.d/init.sql
     restart: unless-stopped
 
+  backend:
+    build: ./ungs-docsys-ms
+    container_name: backend
+    depends_on:
+      - postgres
+    environment:
+      ENVIRONMENT: docker
+      DB_URL: jdbc:postgresql://postgres:5432/docsys
+      DB_USERNAME: admin
+      DB_PASSWORD: admin
+      JWT_SECRET: 255c9605d6e7089dd872607c63e6ea0b8388563201de43555939f4519b577f6edc73f2844e55d00a35eb6361c3d872e008795f1c7603e0075b0f23aacc1b9aba2278bdc03b2c7c32b19941728c34d8c1fef7bd373e8f5c86e225df5358f1af7649c95adb557cc97c8410a62b97f9d43bc51c7314fb4663554913b470978fa6d9aab1556dca71426c5f11b8385876db7b804eacafb2238410273d0e3f75cbaab6e12140662def1556a058f56f57d21dd28da1821193a13713c0d56c41ff92406617e1d2afbc23f5a88f8478df5fcf89f7138e75bd03d733d89cec0a660105f86397ee338ec500643aa2330539214fe07a06070ae0b2a061f27ae95a5e8a6c3a9a
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  bff:
+    build: ./ungs-docsys-bff
+    container_name: bff
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./ungs-docsys-bff/.env.docker
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./ungs-docsys-front
+      dockerfile: Dockerfile.dev
+    container_name: frontend
+    ports:
+      - "3001:5173"
+    env_file:
+      - ./ungs-docsys-front/.env.docker
+    volumes:
+      - ./ungs-docsys-front:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - VITE_API_URL=http://localhost:3000
+    depends_on:
+      - bff
+    restart: unless-stopped
+    
 volumes:
   pgdata:
